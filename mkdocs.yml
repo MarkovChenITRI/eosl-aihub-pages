@@ -1,0 +1,82 @@
+site_name: EOSL AI Hub 文件網站
+site_description: EOSL AI Hub 平台維運文件站
+repo_url: https://github.com/R300-AI/eosl-aihub-pages
+repo_name: R300-AI/eosl-aihub-pages
+docs_dir: docs
+site_dir: site
+
+theme:
+  name: material
+  language: zh-TW
+  features:
+    - navigation.tabs
+    - navigation.sections
+    - navigation.indexes
+    - navigation.top
+    - navigation.footer
+    - toc.follow
+    - search.suggest
+    - search.highlight
+    - content.code.copy
+  palette:
+    - scheme: default
+      primary: blue grey
+      accent: cyan
+  font:
+    text: Noto Sans Traditional Chinese
+    code: JetBrains Mono
+
+nav:
+  - 首頁: index.md
+  - 平台維運:
+      - platform-maintenance/index.md
+      - 平台基礎:
+          - platform-maintenance/foundation/index.md
+          - 介面設計與使用流程: platform-maintenance/foundation/platform-interface-and-user-flows.md
+          - API 服務與業務處理: platform-maintenance/foundation/platform-services-and-business-processing.md
+          - 資料庫結構與責任邊界: platform-maintenance/foundation/database-structure-and-responsibility-boundaries.md
+          - 雲端部署資源: platform-maintenance/foundation/cloud-deployment-resources.md
+      - 模型發布:
+          - platform-maintenance/model-publishing/index.md
+          - 發布前準備: platform-maintenance/model-publishing/preparation.md
+          - 內容驗證: platform-maintenance/model-publishing/content-validation.md
+      - 模型憑證與授權:
+          - platform-maintenance/model-credentials-authorization/index.md
+          - 授權發放: platform-maintenance/model-credentials-authorization/license-issuance.md
+          - 授權條件形成: platform-maintenance/model-credentials-authorization/license-condition-formation.md
+      - 自訂遊樂場整合:
+          - platform-maintenance/custom-playground-integration/index.md
+          - 連線方式與責任邊界: platform-maintenance/custom-playground-integration/connection-and-responsibility.md
+          - 工作流保存與讀回: platform-maintenance/custom-playground-integration/workflow-save-load.md
+          - 遊樂場入口: platform-maintenance/custom-playground-integration/playground-entry.md
+          - 遊樂場檔案保存: platform-maintenance/custom-playground-integration/playground-file-save.md
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search:
+      lang:
+        - en
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/R300-AI/eosl-aihub-pages
+
+copyright: Copyright &copy; EOSL AI Hub maintainers
