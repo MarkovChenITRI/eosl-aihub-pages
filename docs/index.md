@@ -1,21 +1,42 @@
-# AI Hub 文件網站
+# 平台維運
 
-當你要接手 AI Hub WebUI 平台維運，並需要理解介面、API、資料庫、雲端資源、授權核發或模型容器支援時，就從這一頁開始。這個文件網站目前保留平台維運路徑，讓維護者可以從入口頁進入各功能域。
+平台維運文件供平台維護者依功能域接手 AI Hub WebUI。這裡保留目前維護平台需要的基礎架構、授權核發、模型容器支援與自訂遊樂場整合文件。
 
-## 進入平台維運
+當你要檢查平台整體理解、授權核發、模型容器支援、自訂遊樂場整合與後續驗證入口時，請直接從這一頁開始。
 
-| 入口 | 適合誰 | 你會完成什麼 |
-| --- | --- | --- |
-| [平台維運](platform-maintenance/index.md) | 要維護 AI Hub WebUI 平台服務的人。 | 依功能域確認基礎架構介紹、模型金鑰與授權、模型發布與容器化，以及正式環境驗證入口。 |
+## 開始之前
 
-## 目前保留的文件
+請先確認你要處理的是 AI Hub WebUI 平台本身。這個文件站用來支援平台維護者判斷功能域、查證正式環境證據，並找到下一個應查看的維運頁面。
 
-平台維運章節保留三組主線：
+## 選擇你要處理的功能域
 
-1. [基礎架構介紹](platform-maintenance/foundation/index.md)：從介面、API、資料庫一路追到雲端部署資源。
-2. [模型金鑰與授權](platform-maintenance/model-credentials-authorization/index.md)：確認部署申請、授權內容與啟用金鑰核發。
-3. [模型發布與容器化](platform-maintenance/model-publishing/index.md)：確認發布憑證、映像交付、Azure 容器登錄與結果回寫。
+| 你現在要做的事 | 請先看 |
+| --- | --- |
+| 第一次接手平台、建立整體理解 | [平台基礎](platform-maintenance/foundation/index.md) |
+| 釐清登入、角色、部署啟用金鑰或發布憑證 | [模型憑證與授權](platform-maintenance/model-credentials-authorization/index.md) |
+| 維護模型小卡、發布憑證、容器化結果回寫或模型清單 | [模型發布](platform-maintenance/model-publishing/index.md) |
+| 維護外部自訂遊樂場的登入、Agent 設定保存或工作流讀回 | [自訂遊樂場整合](platform-maintenance/custom-playground-integration/index.md) |
+
+## 閱讀順序
+
+1. 先從上表選出最接近目前問題的功能域。
+2. 進入該功能域入口頁，確認哪些內容是已知事實，哪些仍需查證。
+3. 遇到正式環境、機密值、部署狀態或監控門檻時，先查目前環境證據，再執行操作。
+4. 遇到「待補」頁面時，只能把它當成缺口清單，不能當成已完成流程。
+
+## 驗證結果
+
+讀完本入口後，你應該能判斷目前問題屬於哪一個功能域，並知道下一步要查文件、程式碼、GitHub Actions、Azure 還是資料庫。
+
+## 疑難排解
+
+| 狀況 | 下一步 |
+| --- | --- |
+| 不知道要從哪一區開始 | 先讀 [平台基礎](platform-maintenance/foundation/index.md)。 |
+| 不確定是登入權限、發布憑證還是部署啟用金鑰 | 先讀 [模型憑證與授權](platform-maintenance/model-credentials-authorization/index.md)。 |
+| 文件寫到「待確認」 | 不要直接當成正式現況；先向目前維護者確認環境證據。 |
+| 文件與舊實作命名不一致 | 以本文件站新版維運文件定義的流程與資料責任為準，並把舊命名列入遷移或清理清單。 |
 
 ## 下一步
 
-第一次接手平台時，請從 [平台維運](platform-maintenance/index.md) 開始。
+第一次接手平台時，請從 [平台基礎](platform-maintenance/foundation/index.md) 開始。需要維護外部自訂遊樂場整合時，請進入 [自訂遊樂場整合](platform-maintenance/custom-playground-integration/index.md)。

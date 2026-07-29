@@ -28,28 +28,26 @@ theme:
 
 nav:
   - 首頁: index.md
-  - 平台維運:
-      - platform-maintenance/index.md
-      - 平台基礎:
-          - platform-maintenance/foundation/index.md
-          - 介面設計與使用流程: platform-maintenance/foundation/platform-interface-and-user-flows.md
-          - API 服務與業務處理: platform-maintenance/foundation/platform-services-and-business-processing.md
-          - 資料庫結構與責任邊界: platform-maintenance/foundation/database-structure-and-responsibility-boundaries.md
-          - 雲端部署資源: platform-maintenance/foundation/cloud-deployment-resources.md
-      - 模型發布:
-          - platform-maintenance/model-publishing/index.md
-          - 發布前準備: platform-maintenance/model-publishing/preparation.md
-          - 內容驗證: platform-maintenance/model-publishing/content-validation.md
-      - 模型憑證與授權:
-          - platform-maintenance/model-credentials-authorization/index.md
-          - 授權發放: platform-maintenance/model-credentials-authorization/license-issuance.md
-          - 授權條件形成: platform-maintenance/model-credentials-authorization/license-condition-formation.md
-      - 自訂遊樂場整合:
-          - platform-maintenance/custom-playground-integration/index.md
-          - 連線方式與責任邊界: platform-maintenance/custom-playground-integration/connection-and-responsibility.md
-          - 工作流保存與讀回: platform-maintenance/custom-playground-integration/workflow-save-load.md
-          - 遊樂場入口: platform-maintenance/custom-playground-integration/playground-entry.md
-          - 遊樂場檔案保存: platform-maintenance/custom-playground-integration/playground-file-save.md
+  - 平台基礎:
+    - platform-maintenance/foundation/index.md
+    - 介面設計與使用流程: platform-maintenance/foundation/platform-interface-and-user-flows.md
+    - API 服務與業務處理: platform-maintenance/foundation/platform-services-and-business-processing.md
+    - 資料庫結構與責任邊界: platform-maintenance/foundation/database-structure-and-responsibility-boundaries.md
+    - 雲端部署資源: platform-maintenance/foundation/cloud-deployment-resources.md
+  - 模型發布:
+    - platform-maintenance/model-publishing/index.md
+    - 發布前準備: platform-maintenance/model-publishing/preparation.md
+    - 內容驗證: platform-maintenance/model-publishing/content-validation.md
+  - 模型憑證與授權:
+    - platform-maintenance/model-credentials-authorization/index.md
+    - 授權發放: platform-maintenance/model-credentials-authorization/license-issuance.md
+    - 授權條件形成: platform-maintenance/model-credentials-authorization/license-condition-formation.md
+  - 自訂遊樂場整合:
+    - platform-maintenance/custom-playground-integration/index.md
+    - 連線方式與責任邊界: platform-maintenance/custom-playground-integration/connection-and-responsibility.md
+    - 工作流保存與讀回: platform-maintenance/custom-playground-integration/workflow-save-load.md
+    - 遊樂場入口: platform-maintenance/custom-playground-integration/playground-entry.md
+    - 遊樂場檔案保存: platform-maintenance/custom-playground-integration/playground-file-save.md
 
 markdown_extensions:
   - admonition

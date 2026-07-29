@@ -1,8 +1,8 @@
-# 平台維運
+# 平台維運封存頁
 
-平台維運文件已集中到這一區，供平台維護者依功能域接手 AI Hub WebUI。這裡保留目前維護平台需要的基礎架構、授權核發、模型容器支援與自訂遊樂場整合文件。
+平台維運已改由 [首頁](../index.md) 承接，四個功能域也已提升為文件站頂層導覽。本頁保留為舊連結入口，避免既有連結失效。
 
-當你要檢查平台整體理解、授權核發、模型容器支援、自訂遊樂場整合與後續驗證入口時，請直接從本區開始。
+請優先使用首頁與頂層導覽。
 
 ## 開始之前
 
@@ -12,10 +12,10 @@
 
 | 你現在要做的事 | 請先看 |
 | --- | --- |
-| 第一次接手平台、建立整體理解 | [基礎架構介紹](foundation/index.md) |
-| 釐清登入、角色、部署啟用金鑰或發布憑證 | [模型金鑰與授權](model-credentials-authorization/index.md) |
-| 維護模型小卡、發布憑證、容器化結果回寫或模型清單 | [模型容器支援](model-publishing/index.md) |
-| 維護外部自訂遊樂場的登入、Agent 設定保存或工作流讀回 | [整合自訂遊樂場](custom-playground-integration/index.md) |
+| 第一次接手平台、建立整體理解 | [平台基礎](foundation/index.md) |
+| 釐清登入、角色、部署啟用金鑰或發布憑證 | [模型憑證與授權](model-credentials-authorization/index.md) |
+| 維護模型小卡、發布憑證、容器化結果回寫或模型清單 | [模型發布](model-publishing/index.md) |
+| 維護外部自訂遊樂場的登入、Agent 設定保存或工作流讀回 | [自訂遊樂場整合](custom-playground-integration/index.md) |
 
 ## 閱讀順序
 
@@ -39,4 +39,4 @@
 
 ## 下一步
 
-第一次接手平台時，請從 [基礎架構介紹](foundation/index.md) 開始。需要維護外部自訂遊樂場整合時，請進入 [整合自訂遊樂場](custom-playground-integration/index.md)。
+第一次接手平台時，請從 [平台基礎](foundation/index.md) 開始。需要維護外部自訂遊樂場整合時，請進入 [自訂遊樂場整合](custom-playground-integration/index.md)。
