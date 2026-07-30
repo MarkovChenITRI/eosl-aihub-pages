@@ -8,7 +8,7 @@
 
 ## 主流程總覽
 
-自訂遊樂場整合主線分成四段。第一段，AI Hub 依使用者位置決定要進公開 `/playground`、Builder handoff、Runner handoff，或公開唯讀 Runner。第二段，外部自訂遊樂場服務依 AI Hub connection model 驗證使用者身分，並取得或建立同一個帳號底下的 Agent；公開唯讀 Runner 則用公開載入 API 讀取已分類公開的 Agent 設定。第三段，外部服務把工作流名稱、摘要與 Python 設定內容保存回 AI Hub，讓 AI Hub 工作區可以顯示同一筆 Agent 的目前狀態，並由工作區的類型欄位決定是否進入 Gallery。第四段，當工作流需要保存原始支援文件、檢索索引檔或其他執行所需檔案時，AI Hub 簽發短效上傳或下載連結，外部服務直接對 Azure 儲存體存取固定壓縮檔。
+自訂遊樂場整合主線分成五段。第一段，AI Hub 依使用者位置決定要進公開 `/playground`、Builder handoff、Runner handoff，或公開唯讀 Runner。第二段，外部自訂遊樂場服務依 AI Hub connection model 驗證使用者身分，並取得或建立同一個帳號底下的 Agent；公開唯讀 Runner 則用公開載入 API 讀取已分類公開的 Agent 設定。第三段，外部服務把工作流名稱、摘要與 Python 設定內容保存回 AI Hub，讓 AI Hub 工作區可以顯示同一筆 Agent 的目前狀態，並由工作區的類型欄位決定是否進入 Gallery。第四段，Runner 執行 Agentic SDK workflow 時，外部服務把 SDK 的 stage event 轉成畫面狀態，讓使用者在最終文字輸出前知道目前正在理解輸入、查找資料、規劃流程或準備回覆。第五段，當工作流需要保存原始支援文件、檢索索引檔或其他執行所需檔案時，AI Hub 簽發短效上傳或下載連結，外部服務直接對 Azure 儲存體存取固定壓縮檔。
 
 圖 1 固定自訂遊樂場整合的主要責任交接。平台維護者讀圖時，先確認問題停在外部自訂遊樂場服務、AI 服務端點、SQL 資料庫、工作區顯示，還是 Azure 儲存體；後續再進入對應子頁查端點、欄位與成功訊號。
 
@@ -38,7 +38,7 @@ sequenceDiagram
 
 這一節用來對照自訂遊樂場整合主線中，各個平台主體各自要維護哪些內容。
 
-1. 外部自訂遊樂場服務：承接使用者實際操作自訂遊樂場的畫面、公開 `/playground` 首頁、Builder、Runner 可編輯狀態、Runner 唯讀聊天狀態、工作流編輯、聊天互動、壓縮檔打包，以及對 Azure 儲存體的上傳與下載。
+1. 外部自訂遊樂場服務：承接使用者實際操作自訂遊樂場的畫面、公開 `/playground` 首頁、Builder、Runner 可編輯狀態、Runner 唯讀聊天狀態、工作流編輯、聊天互動、Runner 階段狀態顯示、壓縮檔打包，以及對 Azure 儲存體的上傳與下載。
 2. AI 服務端點：承接帳密驗證、來源網域檢查、工作流設定讀寫、Agent 清單回傳、短效檔案連結簽發，以及錯誤格式回應。
 3. SQL 資料庫：承接使用者、Agent 主體、工作流名稱、摘要、Python 設定內容、遊樂場保存狀態與最近匯出時間。
 4. Azure 儲存體：承接每個 `agent_id` 對應的固定 `agentic_playground_bundle.zip` 檔案。Azure 儲存體回應上傳或下載成功，才是工作流檔案包保存與讀回的直接證據。
@@ -53,6 +53,7 @@ sequenceDiagram
 | 目前要確認的事 | 對應頁面 |
 | --- | --- |
 | AI Hub 各導覽位置應該進入公開 `/playground`、Builder handoff、Runner handoff 或公開唯讀 Runner 流程，以及外部自訂遊樂場服務如何驗證身分、讀取 Agent、保存工作流設定，並與 AI Hub 工作區維持同一筆 Agent 狀態 | [連線方式與責任邊界](connection-and-responsibility.md) |
+| Runner 執行 workflow 時，畫面如何在最終回覆前顯示目前階段，以及維護者如何判斷階段狀態、工作流設定與最終回覆的責任邊界 | [Runner 階段狀態](runner-stage-status.md) |
 | 同一筆 Agent 的工作流檔案包如何取得短效上傳或下載連結，並由外部服務直接存取 Azure 儲存體 | [工作流保存與讀回](workflow-save-load.md) |
 
 ## 完成這區後要保證什麼

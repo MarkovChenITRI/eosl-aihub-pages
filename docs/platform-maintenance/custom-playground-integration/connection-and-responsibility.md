@@ -32,7 +32,7 @@ Agentic SDK 文件已定義 AI Hub 已登入使用者進 Playground 的正式 ha
 
 ### 工作流設定讀取與保存
 
-使用者選擇 Agent 後，外部自訂遊樂場服務用同一個 `agent_id` 讀取最近一次匯出的 Python 設定內容、工作流名稱與摘要。使用者在自訂遊樂場中更新工作流後，外部服務再把 `python_source`、`workflow_name`、`description` 與既有 `agent_id` 保存回 AI Hub。
+使用者選擇 Agent 後，外部自訂遊樂場服務用同一個 `agent_id` 讀取最近一次匯出的 Python 設定內容、工作流名稱與摘要。使用者在自訂遊樂場中更新工作流後，外部服務再把 `python_source`、`workflow_name`、`description` 與既有 `agent_id` 保存回 AI Hub。若 `python_source` 中包含 `Workflow(stage_labels=...)`，這些 Runner 階段提示文字也屬於同一份工作流設定內容，會隨 `python_source` 一起保存與讀回。
 
 第一次保存新 Agent 時，外部服務省略 `agent_id`，AI Hub 建立新 Agent 並回傳 `201` 與新的 `agent_id`。後續保存同一筆 Agent 時，外部服務帶回 AI Hub 先前發出的 `agent_id`，AI Hub 更新同一筆 Agent 並回傳 `200`。
 
@@ -49,7 +49,7 @@ AI Hub 與外部自訂遊樂場服務的責任分工如下。平台維護者排�
 | 主體 | 維護責任 | 可觀察證據 |
 | --- | --- | --- |
 | AI Hub | 驗證帳密或 handoff token、檢查來源網域、產生與保存 `agent_id`、讀寫使用者自有 Agent 的工作流設定、保存 Gallery 類型、把導覽位置對應到 Agentic SDK handoff API、公開 `/playground` 或公開唯讀 Runner、更新工作區清單狀態。 | API 回應、SQL 中同一筆 Agent、工作區 Agent 清單、handoff endpoint 或公開入口路徑。 |
-| 外部自訂遊樂場服務 | 顯示登入畫面、承接公開 `/playground`、`/playground/aihub/navigation/builder`、`/playground/aihub/navigation/runner`、控制工作流載入與聊天/編輯狀態、保存外部畫面狀態、讓使用者操作工作流。 | 外部服務畫面、handoff request、工作流編輯狀態、Runner 模式。 |
+| 外部自訂遊樂場服務 | 顯示登入畫面、承接公開 `/playground`、`/playground/aihub/navigation/builder`、`/playground/aihub/navigation/runner`、控制工作流載入與聊天/編輯狀態、保存外部畫面狀態、讓使用者操作工作流，並把 Agentic SDK 的 stage event 顯示成 Runner 即時狀態。 | 外部服務畫面、handoff request、工作流編輯狀態、Runner 模式、stage event 或由它轉成的 process event。 |
 | Azure 儲存體 | 保存同一個 `agent_id` 底下的固定工作流檔案包。 | 上傳/下載回應、檔案儲存位置、短效連結到期時間。 |
 
 `agent_id` 由 AI Hub 產生與發放。外部自訂遊樂場服務保存並帶回 `agent_id`，讓後續讀取、更新與檔案保存都對回同一筆 Agent。AI Hub 把工作流設定保存成 Python 設定內容與顯示資料；工作流內部節點語意、檔案包內容與檢索索引還原由外部服務、Agentic SDK 與 SemanticRetriever 處理。
@@ -77,5 +77,6 @@ AI Hub 與外部自訂遊樂場服務的責任分工如下。平台維護者排�
 2. Agent 清單問題：留下使用者帳號、Agent 清單回應與缺漏的 `agent_id`。
 3. 工作流設定保存問題：留下 請求中的 `workflow_name`、`description`、`python_source`、`agent_id` 與回應狀態。
 4. 工作區顯示問題：留下 AI Hub 工作區清單畫面、同一筆 Agent 的資料庫欄位與最近匯出時間。
+5. Runner 階段狀態問題：留下 Runner 模式、`python_source` 中的 `stage_labels`、外部服務收到的 stage event 或 process event，以及最終回覆是否已開始輸出。
 
-若問題已確認停在工作流檔案包的保存或讀回，下一步接到 [工作流保存與讀回](workflow-save-load.md)。
+若問題已確認停在 Runner 執行期間的階段顯示，下一步接到 [Runner 階段狀態](runner-stage-status.md)。若問題已確認停在工作流檔案包的保存或讀回，下一步接到 [工作流保存與讀回](workflow-save-load.md)。

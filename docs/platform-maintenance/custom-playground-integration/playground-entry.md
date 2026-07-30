@@ -23,4 +23,4 @@ AI Hub 目前會從兩種情境導向遊樂場：
 
 ## 留存證據
 
-排查時至少留下來源頁面、目標 URL、使用者帳號、`agent_id`、handoff 驗證回應，以及外部遊樂場最後停留的頁面。若是公開唯讀入口，則留下公開設定讀取結果與 Runner 載入狀態。
+排查時至少留下來源頁面、目標 URL、使用者帳號、`agent_id`、handoff 驗證回應，以及外部遊樂場最後停留的頁面。若是公開唯讀入口，則留下公開設定讀取結果與 Runner 載入狀態。若使用者已進入 Runner 但回覆前的狀態顯示異常，還要留下 Runner 模式、載入的 config 來源、`python_source` 是否包含 `stage_labels`，以及外部服務是否收到可顯示的階段事件；後續依 [Runner 階段狀態](runner-stage-status.md) 追查。

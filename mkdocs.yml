@@ -45,6 +45,7 @@ nav:
   - 自訂遊樂場整合:
     - platform-maintenance/custom-playground-integration/index.md
     - 連線方式與責任邊界: platform-maintenance/custom-playground-integration/connection-and-responsibility.md
+    - Runner 階段狀態: platform-maintenance/custom-playground-integration/runner-stage-status.md
     - 工作流保存與讀回: platform-maintenance/custom-playground-integration/workflow-save-load.md
     - 遊樂場入口: platform-maintenance/custom-playground-integration/playground-entry.md
     - 遊樂場檔案保存: platform-maintenance/custom-playground-integration/playground-file-save.md
