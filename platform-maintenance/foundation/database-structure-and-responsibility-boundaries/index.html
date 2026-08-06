@@ -1,0 +1,2181 @@
+
+<!doctype html>
+<html lang="zh-TW" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="EOSL AI Hub 平台維運文件站">
+      
+      
+      
+      
+        <link rel="prev" href="../platform-services-and-business-processing/">
+      
+      
+        <link rel="next" href="../cloud-deployment-resources/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>資料庫結構與責任邊界 - EOSL AI Hub 文件網站</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Traditional+Chinese:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans Traditional Chinese";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳轉到
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="頁首">
+    <a href="../../.." title="EOSL AI Hub 文件網站" class="md-header__button md-logo" aria-label="EOSL AI Hub 文件網站" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EOSL AI Hub 文件網站
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              資料庫結構與責任邊界
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="cyan"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜尋" placeholder="搜尋" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="搜尋">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清除" aria-label="清除" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜尋引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/R300-AI/eosl-aihub-pages" title="前往倉庫" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    R300-AI/eosl-aihub-pages
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="標籤" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首頁
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  平台基礎
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../model-publishing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  模型發布
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../model-credentials-authorization/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  模型憑證與授權
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../custom-playground-integration/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  自訂遊樂場整合
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="導覽列" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="EOSL AI Hub 文件網站" class="md-nav__button md-logo" aria-label="EOSL AI Hub 文件網站" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EOSL AI Hub 文件網站
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/R300-AI/eosl-aihub-pages" title="前往倉庫" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    R300-AI/eosl-aihub-pages
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首頁
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    平台基礎
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    平台基礎
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-interface-and-user-flows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    介面設計與使用流程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../platform-services-and-business-processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 服務與業務處理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    資料庫結構與責任邊界
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    資料庫結構與責任邊界
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目錄">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目錄
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        這份文件會幫你完成什麼
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        從 API 服務對照資料功能域
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        資料功能域分組
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="資料功能域分組">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模型發布與容器化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        帳號、群組與額度治理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent 定義與執行入口
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        產品與硬體規格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模型目錄與規格參考
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        部署環境參考
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        部署申請與金鑰核發
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方案內容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平台支援設定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy 展示資料
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查完這頁後應該留下什麼
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cloud-deployment-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    雲端部署資源
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../model-publishing/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型發布
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    模型發布
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model-publishing/preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    發布前準備
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model-publishing/content-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    內容驗證
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../model-credentials-authorization/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型憑證與授權
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    模型憑證與授權
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model-credentials-authorization/license-issuance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    授權發放
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model-credentials-authorization/license-condition-formation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    授權條件形成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../custom-playground-integration/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自訂遊樂場整合
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    自訂遊樂場整合
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../custom-playground-integration/connection-and-responsibility/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    連線方式與責任邊界
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../custom-playground-integration/runner-stage-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runner 階段狀態
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../custom-playground-integration/runner-memory-context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runner 對話記憶上下文
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../custom-playground-integration/agentic-sdk-module-standard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic SDK 模組規範
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../custom-playground-integration/workflow-save-load/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    工作流保存與讀回
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../custom-playground-integration/playground-entry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    遊樂場入口
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../custom-playground-integration/playground-file-save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    遊樂場檔案保存
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目錄">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目錄
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        這份文件會幫你完成什麼
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        從 API 服務對照資料功能域
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        資料功能域分組
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="資料功能域分組">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模型發布與容器化
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        帳號、群組與額度治理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Agent 定義與執行入口
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        產品與硬體規格
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        模型目錄與規格參考
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        部署環境參考
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        部署申請與金鑰核發
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        方案內容
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平台支援設定
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#legacy" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Legacy 展示資料
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查完這頁後應該留下什麼
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">資料庫結構與責任<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">這份文件會幫你完成什麼<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>當你是平台維護者，正在從 API 結果、WebUI 畫面、SQL 表名、資料列、audit record、備份結果、模型發布、帳號治理、群組治理、Agent 維護或部署設定追查 SQL Server 中的正式資料責任時，就看這一頁。這一頁會幫你判斷手上的問題落在哪個資料功能域，並確認後續要沿哪一條資料責任鏈追查。</p>
+<p>使用這一頁時，先判斷問題屬於哪一組 API 服務，再找到對應的 SQL 資料功能域。進入該功能域後，再確認主體、欄位、外鍵與狀態欄位是否能支持目前的維護判斷。</p>
+<h2 id="api">從 API 服務對照資料功能域<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<p>資料庫排查接續 <a href="../platform-services-and-business-processing/">API 服務與端點</a> 定義的五大服務分組。API 服務名稱沿用 API 頁；SQL 資料功能域名稱沿用本頁 <code>## 資料功能域分組</code> 底下的十個主題。圖 1 表示跨層追查對照，線條說明 API 服務如何落到 SQL 資料責任，並不表示兩邊必須同名。</p>
+<p>圖 1 用來把 API 服務分組對到 SQL 資料功能域。讀圖時先從畫面或端點定位 API 服務，再看它落到哪一個資料功能域；進入功能域後，再檢查主鍵、外鍵、複合主鍵、狀態欄位與時間欄位。</p>
+<pre class="mermaid"><code>flowchart LR
+    subgraph api["API 服務分組"]
+        direction TB
+        content["內容與目錄"]
+        deployment["部署與授權"]
+        apiAgent["代理與執行"]
+        apiGovernance["帳號、群組與用量"]
+        shared["共用支援與安全"]
+    end
+
+    subgraph domains["SQL 資料功能域分組"]
+        direction TB
+        modelPublish["模型發布與容器化"]
+        governance["帳號、群組與額度治理"]
+        agent["Agent 定義與執行入口"]
+        product["產品與硬體規格"]
+        modelCatalog["模型目錄與規格參考"]
+        runtime["部署環境參考"]
+        license["部署申請與金鑰核發"]
+        solutions["方案內容"]
+        support["平台支援設定"]
+        legacy["Legacy 展示資料"]
+    end
+
+    content --&gt;|"模型上架與容器化結果"| modelPublish
+    content --&gt;|"產品資料與規格選項"| product
+    content --&gt;|"模型小卡與模型規格"| modelCatalog
+    content --&gt;|"方案內容"| solutions
+    content --&gt;|"舊展示與過渡查閱"| legacy
+
+    deployment --&gt;|"部署設定輸入"| runtime
+    deployment --&gt;|"可用模型參照"| modelCatalog
+    deployment --&gt;|"產品規格條件"| product
+    deployment --&gt;|"部署申請與 LICENSE_KEY 核發"| license
+
+    apiAgent --&gt;|"Agent 定義與入口"| agent
+    apiAgent --&gt;|"擁有者帳號"| governance
+
+    apiGovernance --&gt;|"帳號、群組與額度資料"| governance
+    shared --&gt;|"聯繫設定"| support
+    shared --&gt;|"部署頁支援資料"| runtime
+    shared --&gt;|"硬體規格字典"| product
+    shared --&gt;|"登入與權限保護"| governance
+    shared --&gt;|"Agent bridge 入口"| agent</code></pre>
+<p>圖 1、API 服務分組與 SQL 資料功能域分組對照。</p>
+<p>圖後進入各主題時，維護者應把圖中的跨層對照轉成單一資料功能域內的主鍵、外鍵、複合主鍵、狀態欄位與時間欄位檢查。</p>
+<h2 id="_3">資料功能域分組<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>平台資料責任依維護者實際追查的功能域拆分。每個主題都先說明資料如何進入資料層，再用 ER 子圖固定主體、核心欄位與關聯。讀者應先找最接近目前問題的主題，再進入該主題內判斷主鍵、外鍵、狀態與時間欄位是否能支持目前的維護工作。</p>
+<h3 id="_4">模型發布與容器化<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>模型發布與容器化從模型發布方在「我的模型」送出上架資料開始。平台會把部署裝置、模型架構資料與 OpenAI SDK 支援資訊固定到同一張模型小卡，再由這些資料產生發布憑證（<code>model_card.yaml</code>）。CI/CD 自動交付流程完成驗證、建置與推送後，會把 OpenAI SDK 驗證結果與登錄位置更新到同一張模型小卡。</p>
+<p>圖 2 用來確認模型上架資料與容器化結果如何落到資料層。讀圖時先看模型小卡，再確認它對應的產品規格選項與模型變體，並由模型變體回到模型資料；若模型清單或部署選項顯示不一致，再檢查發布結果欄位是否已完成更新。</p>
+<pre class="mermaid"><code>erDiagram
+    product_specification_option ||--o{ card : targets
+    model_variant ||--o{ card : appears_on
+    model ||--o{ model_variant : has
+
+    product_specification_option {
+        int product_specification_option_id PK
+        int product_id FK
+        int compute_id FK
+        int memory_id FK
+        string status
+    }
+
+    model {
+        string model_id PK
+        string model_name
+        string model_family
+        string task_type
+        string architecture
+        string owner_username
+    }
+
+    model_variant {
+        string variant_id PK
+        string model_id FK
+        string weight_precision
+        string framework
+        string runtime
+        string target_accelerator
+    }
+
+    card {
+        int card_id PK
+        int product_specification_option_id FK
+        int variant_id FK
+        string publisher_id FK
+        boolean sdk_used
+        string registry_location
+        string packaging_mode
+    }</code></pre>
+<p>圖 2、模型發布與容器化 ER 子圖。</p>
+<p>圖後判讀時，<code>card_id</code> 固定同一張模型小卡，<code>product_specification_option_id</code> 固定部署裝置與產品規格條件，<code>variant_id</code> 把模型小卡接到模型變體、再由模型變體以 <code>model_id</code> 回到模型資料，固定模型架構與變體資訊。<code>sdk_used</code>（OpenAI SDK 宣告）與 <code>registry_location</code> 是 CI/CD 自動交付流程更新到模型小卡的容器化結果；若兩者缺漏或不一致，維護者應回到發布憑證與結果回寫資料確認同一張模型小卡是否完成交付。</p>
+<h3 id="_5">帳號、群組與額度治理<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h3>
+<p>帳號、群組與額度治理從登入帳號開始，延伸到群組、角色、額度與治理歷程。使用者看到的角色、群組成員或 Budget / Credit 通常是目前狀態；維護者要追的是這個狀態是否有對應的成員關聯、額度事件與 audit record。這條鏈的重點在於把 username 和 group_id 放在同一個治理脈絡裡，讓帳號狀態、群組關係與治理紀錄能一起判讀。</p>
+<p>圖 3 用來確認帳號和群組的交會點。<code>app_user</code> 固定帳號主體，<code>account_group</code> 固定群組主體，<code>account_group_member</code> 是兩者關係是否生效的轉折；額度與角色異動則分別回到 score 與 audit 紀錄，讓維護者判斷畫面上看到的是目前狀態還是歷程結果。</p>
+<pre class="mermaid"><code>erDiagram
+    app_user ||--o{ account_score : has
+    app_user ||--o{ score_event : receives
+    app_user ||--o{ user_role_audit : audited_as_target
+    app_user ||--o{ account_group_member : joins
+
+    account_group ||--o{ account_group_member : contains
+    account_group ||--o{ account_group_audit : records
+
+    app_user {
+        string username PK
+        string display_name
+        string role
+        string status
+        datetime updated_at
+    }
+
+    account_score {
+        string username PK,FK
+        decimal budget_total_device_months
+        decimal credit_total_device_months
+        int deployment_count
+        datetime updated_at
+    }
+
+    score_event {
+        bigint score_event_id PK
+        string username FK
+        string score_type
+        decimal amount_device_months
+        string reference_type
+        string reference_id
+    }
+
+    user_role_audit {
+        string audit_id PK
+        string target_username
+        string actor_username
+        string action
+        datetime created_at
+    }
+
+    account_group {
+        int group_id PK
+        string group_key
+        string owner_username FK
+        string status
+        datetime updated_at
+    }
+
+    account_group_member {
+        int group_id PK,FK
+        string username PK,FK
+        string member_role
+        string added_by
+        datetime joined_at
+    }
+
+    account_group_audit {
+        string audit_id PK
+        int group_id
+        string actor_username
+        string target_username
+        string action
+        datetime created_at
+    }</code></pre>
+<p>圖 3、帳號、群組與額度治理 ER 子圖。</p>
+<p>圖後判讀時，<code>username</code> 是帳號、額度、額度事件與群組成員關係的共同索引；<code>group_id</code> 是群組主體、成員關係與群組 audit 的共同索引。<code>account_score</code> 保存目前額度摘要，<code>score_event</code> 保存異動事件；<code>role</code>、<code>status</code>、<code>member_role</code> 與 <code>action</code> 則讓維護者判斷目前權限和歷程紀錄是否互相支持。</p>
+<h3 id="agent">Agent 定義與執行入口<a class="headerlink" href="#agent" title="Permanent link">&para;</a></h3>
+<p>Agent 定義與執行入口承接個人工作區和外部 Playground 共同操作的 Agent 定義。使用者可能從個人工作區建立 Agent，也可能從外部 Playground 讀取或更新同一筆 Agent；資料庫在這裡固定的是 Agent 定義、擁有者、工作流內容與執行入口。這條界線讓維護者能判斷 SQL 中保存的是哪一筆可執行定義，以及這筆定義屬於哪個帳號。</p>
+<p>圖 4 用來確認 Agent 定義和擁有者的關係。讀圖時只要先確認 <code>agent_workspace_agent</code> 是否指向正確的 <code>app_user</code>，就能判斷個人工作區端點和外部 Playground 是否正在操作同一個帳號底下的同一筆 Agent。</p>
+<pre class="mermaid"><code>erDiagram
+    app_user ||--o{ agent_workspace_agent : owns
+
+    app_user {
+        string username PK
+        string display_name
+        string role
+        string status
+    }
+
+    agent_workspace_agent {
+        string agent_id PK
+        string owner_username FK
+        string workflow_name
+        string workflow_yaml
+        string entry_node
+        string execution_backend
+        string playground_contract_version
+        json playground_workflow_spec
+        json playground_runner_presentation
+        string playground_contract_hash
+        string playground_semantic_bundle_ref
+        text playground_generated_source
+        json playground_endpoint_bindings
+        datetime playground_contract_saved_at
+        datetime playground_exported_at
+        datetime last_run_at
+        datetime updated_at
+    }</code></pre>
+<p>圖 4、Agent 定義與執行入口 ER 子圖。</p>
+<p>圖後判讀時，<code>agent_id</code> 固定單一 Agent 定義，<code>owner_username</code> 讓它回到擁有者帳號，<code>workflow_yaml</code>、<code>entry_node</code> 與 <code>execution_backend</code> 說明工作區定義與執行入口如何被保存。</p>
+<p>外部 Playground 的 v2 保存以 <code>playground_contract_version</code> 與 <code>playground_workflow_spec</code> 為主體，<code>playground_contract_hash</code> 供維護者比對保存版本；這三者用於判斷可否重新編輯同一個 workflow。<code>playground_runner_presentation</code>、<code>playground_generated_source</code>、<code>playground_endpoint_bindings</code> 與兩個保存時間則支援 Runner 顯示、程式碼匯出、模型端點追查與保存時序。<code>playground_semantic_bundle_ref</code> 只保存檔案包參照，實際 bundle 仍由外部服務透過短效連結管理。維護者先以 <code>agent_id</code> 與 <code>owner_username</code> 確認權限，再把這些欄位對照 <code>POST /api/playground/contract/save</code>、config load 與 bundle save/load 的回應；<code>last_run_at</code> 和 <code>updated_at</code> 則用來判斷定義是否曾被執行或更新。</p>
+<h3 id="_6">產品與硬體規格<a class="headerlink" href="#_6" title="Permanent link">&para;</a></h3>
+<p>產品與硬體規格承接正式產品主線。產品提供者在管理端維護產品名稱、型號、vendor、可選硬體規格與資源連結，公開產品頁再把這些資料呈現給使用者和模型發布方。這個主題的排查重點是同一個 product 是否帶著正確規格選項與資源連結，並和 legacy 硬體展示資料保持清楚邊界。</p>
+<p>圖 5 用來確認正式產品資料如何組成。讀圖時先看 <code>product</code>，再看它提供的 <code>product_specification_option</code> 和 <code>product_resource_link</code>；<code>hardware_ic_vendor</code> 是產品和硬體規格的 vendor 參照，hardware 在這裡代表規格與 vendor 語意。</p>
+<pre class="mermaid"><code>erDiagram
+    product ||--o{ product_specification_option : offers
+    product ||--o{ product_resource_link : links
+    product }o--|| hardware_ic_vendor : made_by
+    product_specification_option }o--|| compute : uses
+    product_specification_option }o--|| memory : uses
+
+    product {
+        int product_id PK
+        string vendor
+        string product_name
+        string sku
+        int ic_vendor_id FK
+        string deployment_type
+        string status
+    }
+
+    product_specification_option {
+        int product_specification_option_id PK
+        int product_id FK
+        int compute_id FK
+        int memory_id FK
+        string memory_binding
+        string status
+    }
+
+    product_resource_link {
+        int resource_link_id PK
+        int product_id FK
+        string link_type
+        string title
+        string url
+        string status
+    }
+
+    hardware_ic_vendor {
+        int ic_vendor_id PK
+        string vendor_name
+        string status
+    }
+
+    compute {
+        int compute_id PK
+        string compute_name
+        string architecture
+        string unit_type
+        decimal peak_value
+    }
+
+    memory {
+        int memory_id PK
+        string memory_name
+        string type
+        decimal capacity_gb
+        decimal total_bandwidth
+    }</code></pre>
+<p>圖 5、產品與硬體規格 ER 子圖。</p>
+<p>圖後判讀時，<code>product_id</code> 固定正式產品主體，<code>product_specification_option_id</code> 固定該產品可選的算力與記憶體組合。<code>compute_id</code>、<code>memory_id</code> 與 <code>memory_binding</code> 說明硬體規格如何支援產品選項；<code>resource_link_id</code>、<code>link_type</code> 與 <code>status</code> 則說明產品資源連結是否仍有效。</p>
+<h3 id="_7">模型目錄與規格參考<a class="headerlink" href="#_7" title="Permanent link">&para;</a></h3>
+<p>模型目錄與規格參考承接公開模型小卡和部署前的模型規格選擇。模型小卡讓使用者看到可瀏覽、可部署的模型；模型家族、模型變體、算力與記憶體規格則讓維護者確認模型卡上的規格描述是否有共同來源。這個主題的排查重點是同一張 card 是否對到正確模型、變體與規格參照。</p>
+<p>圖 6 用來確認模型目錄和規格參考的關係。讀圖時先看 <code>card</code>，沿 <code>variant_id</code> 看它連到的 <code>model_variant</code>，再由 <code>model_variant</code> 的 <code>model_id</code> 回到 <code>model</code> 確認模型與變體；硬體規格則看 <code>card</code> 的 <code>compute</code> 與 <code>product_specification_option</code> 提供的 <code>memory</code>。</p>
+<pre class="mermaid"><code>erDiagram
+    model ||--o{ model_variant : has
+    model_variant ||--o{ card : appears_on
+    card }o--|| product_specification_option : targets
+    card }o--|| compute : uses
+    product_specification_option }o--|| memory : uses
+
+    card {
+        int card_id PK
+        int product_specification_option_id FK
+        int variant_id FK
+        int compute_id FK
+        string publisher_id FK
+        boolean sdk_used
+        string registry_location
+    }
+
+    model {
+        string model_id PK
+        string model_name
+        string model_family
+        string task_type
+        string architecture
+        string owner_username
+    }
+
+    model_variant {
+        string variant_id PK
+        string model_id FK
+        string weight_precision
+        string framework
+        string runtime
+        string target_accelerator
+    }
+
+    compute {
+        int compute_id PK
+        string vendor
+        string compute_name
+        string architecture
+        string unit_type
+        decimal peak_value
+    }
+
+    memory {
+        int memory_id PK
+        string memory_name
+        string type
+        decimal capacity_gb
+        decimal total_bandwidth
+    }
+
+    product_specification_option {
+        int product_specification_option_id PK
+        int product_id FK
+        int compute_id FK
+        int memory_id FK
+    }</code></pre>
+<p>圖 6、模型目錄與規格參考 ER 子圖。</p>
+<p>圖後判讀時，<code>card_id</code> 固定公開模型小卡，<code>variant_id</code> 把模型小卡接到模型變體、再由 <code>model_variant</code> 的 <code>model_id</code> 回到模型，<code>product_specification_option_id</code> 則把模型小卡接到產品規格選項。模型規格由 <code>model</code> 與 <code>model_variant</code> 描述，硬體規格由 <code>card</code> 的 <code>compute</code> 與產品規格選項提供的 <code>memory</code> 共同支援。</p>
+<h3 id="_8">部署環境參考<a class="headerlink" href="#_8" title="Permanent link">&para;</a></h3>
+<p>部署環境參考承接部署頁需要的 runtime、vendor、stack、OS 與相容硬體資訊。這些資料讓部署頁能提供可選環境，也讓維護者判斷模型和產品是否能接到同一組部署條件。這個主題保存部署前的環境參考資料；授權核發、金鑰與容器啟用結果不寫在 <code>tool_deployment_runtime</code>。</p>
+<p>圖 7 用來固定 deployment runtime 和 vendor 的參照關係。讀圖時先看 <code>tool_deployment_runtime</code> 的 runtime、stack、OS 與相容硬體，再看它引用的 <code>hardware_ic_vendor</code> 是否能和產品或模型部署條件對上。</p>
+<pre class="mermaid"><code>erDiagram
+    tool_deployment_runtime }o--|| hardware_ic_vendor : references_vendor
+
+    tool_deployment_runtime {
+        int runtime_id PK
+        string env_key
+        string vendor_key
+        string stack_key
+        string os_key
+        string runtime_key
+        string compatible_hardware
+        string status
+    }
+
+    hardware_ic_vendor {
+        int ic_vendor_id PK
+        string vendor_name
+        string status
+    }</code></pre>
+<p>圖 7、部署環境參考 ER 子圖。</p>
+<p>圖後判讀時，<code>runtime_id</code> 固定一筆部署環境參考；<code>env_key</code>、<code>vendor_key</code>、<code>stack_key</code>、<code>os_key</code> 與 <code>runtime_key</code> 組成唯一條件。<code>compatible_hardware</code> 保存可搭配的硬體描述，<code>status</code> 和 <code>display_order</code> 決定資料是否仍可被選用與排序。</p>
+<h3 id="_9">部署申請與金鑰核發<a class="headerlink" href="#_9" title="Permanent link">&para;</a></h3>
+<p>部署申請與金鑰核發承接一般使用者在「我的部署」送出的部署目標、使用月數與主機識別資訊。資料庫在這裡固定單筆部署紀錄、正式授權內容與核發結果，讓 <code>LICENSE_KEY</code> 的交付、秘密參照、容器端驗章、裝置檢查與過期檢查都能回到同一筆部署結果。</p>
+<p>圖 8 用來確認部署申請如何形成正式授權內容。讀圖時先看部署紀錄是否指向正確使用者與模型小卡，再看正式授權內容是否保存同一筆申請形成的核發時間、到期時間與主機綁定結果，最後用核發紀錄與 <code>secret_ref</code> 確認啟用金鑰連到受控保存位置。</p>
+<pre class="mermaid"><code>erDiagram
+    app_user ||--o{ deployment_record : owns
+    card ||--o{ deployment_record : targets
+    deployment_record ||--|| license_payload : forms
+    deployment_record ||--o{ license_issuance : issues
+
+    app_user {
+        string username PK
+        string role
+        string status
+    }
+
+    card {
+        int card_id PK
+        int variant_id FK
+        int product_specification_option_id FK
+        string registry_location
+    }
+
+    deployment_record {
+        string deployment_id PK
+        string owner_username FK
+        int card_id FK
+        int requested_months
+        string device_serial
+        string bios_uuid
+        string mac_address
+    }
+
+    license_payload {
+        string deployment_id PK,FK
+        int card_id FK
+        datetime issued_at
+        datetime expires_at
+        string hardware_hash
+    }
+
+    license_issuance {
+        string license_issuance_id PK
+        string deployment_id FK
+        string key_version
+        string signature
+        string secret_ref
+        datetime issued_at
+    }</code></pre>
+<p>圖 8、部署申請與金鑰核發 ER 子圖。</p>
+<p><code>deployment_id</code> 固定單筆部署申請，<code>owner_username</code> 與 <code>card_id</code> 固定申請者與部署目標。使用月數與主機識別資訊是正式授權內容形成前的來源資料；核發時間、到期時間與主機綁定結果是簽章與容器端驗證共同使用的正式授權內容。<code>secret_ref</code> 保存啟用金鑰的秘密參照，讓資料庫能追蹤交付對應。</p>
+<h3 id="_10">方案內容<a class="headerlink" href="#_10" title="Permanent link">&para;</a></h3>
+<p>方案內容承接公開方案與個人工作區維護的方案資料。方案本身是能力展示與內容入口，資料責任集中在同一個 solution 是否保存正確的標題、分類、領域、展示內容、圖片與必要的模型小卡參照。</p>
+<p>圖 9 用來確認方案內容主體。讀圖時先看 <code>platform_solution</code>，再看它是否透過 <code>card_id</code> 連到模型小卡主體；方案公開展示與工作區維護都以這筆 solution 內容為起點。</p>
+<pre class="mermaid"><code>erDiagram
+    platform_solution }o--|| card : references
+
+    platform_solution {
+        int solution_id PK
+        string slug
+        string owner_username
+        string domain
+        string title
+        int card_id FK
+        string status
+    }
+
+    card {
+        int card_id PK
+        int variant_id FK
+        int product_specification_option_id FK
+    }</code></pre>
+<p>圖 9、方案內容 ER 子圖。</p>
+<p>圖後判讀時，<code>solution_id</code> 固定方案主體，<code>slug</code> 固定公開路徑，<code>owner_username</code> 保留內容維護者，<code>domain</code>、<code>title</code> 與 <code>status</code> 支援方案分類、呈現與生命週期判讀。<code>card_id</code> 讓方案內容引用模型小卡，維護者可以用它確認方案展示內容是否對到正確模型資料。</p>
+<h3 id="_11">平台支援設定<a class="headerlink" href="#_11" title="Permanent link">&para;</a></h3>
+<p>平台支援設定處理多個頁面共同讀取的支援資料。聯繫頁的管道、摘要、聯絡方式與按鈕文案會影響公開頁和管理端能否呈現正確支援資訊，因此獨立成域；維護者查產品、模型或部署資料時，聯繫設定只由這個主題中的支援資料欄位承擔。</p>
+<p>圖 10 用來固定平台支援設定目前的獨立主體。讀圖時只需確認聯繫管道資料本身是否存在、狀態是否正確，以及管理端更新後公開頁是否讀到同一筆設定。</p>
+<pre class="mermaid"><code>erDiagram
+    platform_contact_channel {
+        int contact_channel_id PK
+        string channel_key
+        string title
+        string summary
+        string contact_name
+        string email
+        string phone
+        string url
+        string cta_label
+        string status
+    }</code></pre>
+<p>圖 10、平台支援設定 ER 子圖。</p>
+<p>圖後判讀時，<code>contact_channel_id</code> 固定單一聯繫管道，<code>channel_key</code> 防止同類管道重複建立，<code>title</code>、<code>summary</code>、<code>contact_name</code>、<code>email</code>、<code>phone</code>、<code>url</code> 與 <code>cta_label</code> 組成頁面可呈現的支援資料。<code>status</code> 與 <code>display_order</code> 決定資料是否仍可使用與呈現順序。</p>
+<h3 id="legacy">Legacy 展示資料<a class="headerlink" href="#legacy" title="Permanent link">&para;</a></h3>
+<p>Legacy 展示資料用來處理過渡期間仍可能被查到的舊硬體展示資料。正式產品維護已回到 <code>product</code> 主線；維護者看到 <code>hardware_device*</code> 表名、舊 API alias 或過渡內容時，應先判斷它是在支援舊展示查閱，還是有資料仍未遷回正式產品主線。</p>
+<p>圖 11 用來固定 legacy 硬體展示資料的邊界。讀圖時先看 <code>hardware_device</code>，再看它附帶的 compute、memory、accelerator/memory pair 與 resource link；這些資料可以協助判讀舊內容，但正式產品新增、更新與詳情維護應回到 <code>product</code>、<code>product_specification_option</code> 與 <code>product_resource_link</code>。</p>
+<pre class="mermaid"><code>erDiagram
+    hardware_device ||--o{ hardware_device_compute : has
+    hardware_device ||--o{ hardware_device_memory : has
+    hardware_device ||--o{ hardware_device_accelerator_memory_pair : pairs
+    hardware_device ||--o{ hardware_device_resource_link : links
+    hardware_device }o--|| hardware_ic_vendor : made_by
+
+    hardware_device {
+        int device_id PK
+        string vendor
+        string product_name
+        string sku
+        int ic_vendor_id FK
+        string deployment_type
+        string status
+    }
+
+    hardware_device_compute {
+        int device_compute_id PK
+        int device_id FK
+        int compute_id FK
+        string display_name
+        string status
+    }
+
+    hardware_device_memory {
+        int device_memory_id PK
+        int device_id FK
+        int memory_id FK
+        string display_name
+        string status
+    }
+
+    hardware_device_accelerator_memory_pair {
+        int pair_id PK
+        int device_id FK
+        int device_compute_id FK
+        int device_memory_id FK
+        string memory_binding
+        string status
+    }
+
+    hardware_device_resource_link {
+        int resource_link_id PK
+        int device_id FK
+        string link_type
+        string title
+        string url
+        string status
+    }
+
+    hardware_ic_vendor {
+        int ic_vendor_id PK
+        string vendor_name
+        string status
+    }</code></pre>
+<p>圖 11、Legacy 展示資料 ER 子圖。</p>
+<p>圖後判讀時，<code>device_id</code> 固定舊硬體展示主體，<code>device_compute_id</code> 和 <code>device_memory_id</code> 分別保存舊展示使用的算力與記憶體項目，<code>pair_id</code> 保存算力與記憶體的搭配方式。<code>hardware_device_resource_link</code> 保存舊展示資源連結；若資料要進入正式維護，必須能對應到 <code>product</code>、<code>product_specification_option</code> 與 <code>product_resource_link</code> 的欄位模型。</p>
+<h2 id="_12">查完這頁後應該留下什麼<a class="headerlink" href="#_12" title="Permanent link">&para;</a></h2>
+<p>查完這一頁後，平台維護者應該能指出問題屬於哪個資料功能域、哪個主體 ID 是起點、哪條外鍵或複合主鍵形成轉折，以及哪些狀態或時間欄位能支援目前判斷。若同一個問題無法在單一功能域內完成判讀，應以共同欄位銜接資料鏈，例如 <code>username</code> 連接帳號與群組、<code>product_specification_option_id</code> 連接產品規格與模型小卡、<code>card_id</code> 連接模型發布、模型目錄、方案內容與部署申請、<code>deployment_id</code> 連接部署申請與金鑰核發結果。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到頂端
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="頁腳" >
+        
+          
+          <a href="../platform-services-and-business-processing/" class="md-footer__link md-footer__link--prev" aria-label="上一頁: API 服務與業務處理">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一頁
+              </span>
+              <div class="md-ellipsis">
+                API 服務與業務處理
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../cloud-deployment-resources/" class="md-footer__link md-footer__link--next" aria-label="下一頁: 雲端部署資源">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一頁
+              </span>
+              <div class="md-ellipsis">
+                雲端部署資源
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; EOSL AI Hub maintainers
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/R300-AI/eosl-aihub-pages" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u8907\u88fd", "clipboard.copy": "\u8907\u88fd", "search.result.more.one": "\u6b64\u9801\u5c1a\u6709 1 \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.more.other": "\u6b64\u9801\u5c1a\u6709 # \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.none": "\u6c92\u6709\u7b26\u5408\u7684\u9805\u76ee", "search.result.one": "\u627e\u5230 1 \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.other": "\u627e\u5230 # \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.placeholder": "\u6253\u5b57\u9032\u884c\u641c\u5c0b", "search.result.term.missing": "\u7f3a\u5c11\u5b57\u8a5e", "select.version": "\u9078\u64c7\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

@@ -1,0 +1,1823 @@
+
+<!doctype html>
+<html lang="zh-TW" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="EOSL AI Hub 平台維運文件站">
+      
+      
+      
+      
+        <link rel="prev" href="../">
+      
+      
+        <link rel="next" href="../runner-stage-status/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>連線方式與責任邊界 - EOSL AI Hub 文件網站</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+Traditional+Chinese:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Sans Traditional Chinese";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="cyan">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳轉到
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="頁首">
+    <a href="../../.." title="EOSL AI Hub 文件網站" class="md-header__button md-logo" aria-label="EOSL AI Hub 文件網站" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            EOSL AI Hub 文件網站
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              連線方式與責任邊界
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="" data-md-color-scheme="default" data-md-color-primary="blue-grey" data-md-color-accent="cyan"  aria-hidden="true"  type="radio" name="__palette" id="__palette_0">
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜尋" placeholder="搜尋" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="搜尋">
+        
+        <button type="reset" class="md-search__icon md-icon" title="清除" aria-label="清除" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜尋引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/R300-AI/eosl-aihub-pages" title="前往倉庫" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    R300-AI/eosl-aihub-pages
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+            
+<nav class="md-tabs" aria-label="標籤" data-md-component="tabs">
+  <div class="md-grid">
+    <ul class="md-tabs__list">
+      
+        
+  
+  
+  
+  
+    <li class="md-tabs__item">
+      <a href="../../.." class="md-tabs__link">
+        
+  
+  
+    
+  
+  首頁
+
+      </a>
+    </li>
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../foundation/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  平台基礎
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../model-publishing/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  模型發布
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+  
+    
+    
+      <li class="md-tabs__item">
+        <a href="../../model-credentials-authorization/" class="md-tabs__link">
+          
+  
+  
+    
+  
+  模型憑證與授權
+
+        </a>
+      </li>
+    
+  
+
+      
+        
+  
+  
+  
+    
+  
+  
+    
+    
+      <li class="md-tabs__item md-tabs__item--active">
+        <a href="../" class="md-tabs__link">
+          
+  
+  
+    
+  
+  自訂遊樂場整合
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ul>
+  </div>
+</nav>
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+
+<nav class="md-nav md-nav--primary md-nav--lifted" aria-label="導覽列" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="EOSL AI Hub 文件網站" class="md-nav__button md-logo" aria-label="EOSL AI Hub 文件網站" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    EOSL AI Hub 文件網站
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/R300-AI/eosl-aihub-pages" title="前往倉庫" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    R300-AI/eosl-aihub-pages
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    首頁
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../foundation/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    平台基礎
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_2" id="__nav_2_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    平台基礎
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foundation/platform-interface-and-user-flows/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    介面設計與使用流程
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foundation/platform-services-and-business-processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    API 服務與業務處理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foundation/database-structure-and-responsibility-boundaries/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    資料庫結構與責任邊界
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../foundation/cloud-deployment-resources/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    雲端部署資源
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../model-publishing/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型發布
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_3" id="__nav_3_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    模型發布
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model-publishing/preparation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    發布前準備
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model-publishing/content-validation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    內容驗證
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" >
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../../model-credentials-authorization/" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    模型憑證與授權
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_4" id="__nav_4_label" tabindex="0">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    模型憑證與授權
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model-credentials-authorization/license-issuance/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    授權發放
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../model-credentials-authorization/license-condition-formation/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    授權條件形成
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+          
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+      
+        
+        
+      
+      
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--section md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_5" checked>
+        
+          
+          <div class="md-nav__link md-nav__container">
+            <a href="../" class="md-nav__link ">
+              
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    自訂遊樂場整合
+  
+
+    
+  </span>
+  
+  
+
+            </a>
+            
+              
+              <label class="md-nav__link " for="__nav_5" id="__nav_5_label" tabindex="">
+                <span class="md-nav__icon md-icon"></span>
+              </label>
+            
+          </div>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    自訂遊樂場整合
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    連線方式與責任邊界
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    連線方式與責任邊界
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目錄">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目錄
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        這份文件會幫你完成什麼
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平台如何完成連線與工作流設定保存
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="平台如何完成連線與工作流設定保存">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#playground-handoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Playground 導航與 handoff 對照
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        登入驗證與 Agent 選擇
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工作流設定讀取與保存
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runner-ai-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runner 唯讀模式與 AI Hub 保存邊界
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI Hub 與外部服務的責任邊界
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工作流設定 API 參考
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="工作流設定 API 參考">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v2 保存內容
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查完這頁後應該留下什麼
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runner-stage-status/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runner 階段狀態
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../runner-memory-context/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Runner 對話記憶上下文
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../agentic-sdk-module-standard/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Agentic SDK 模組規範
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../workflow-save-load/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    工作流保存與讀回
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playground-entry/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    遊樂場入口
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../playground-file-save/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    遊樂場檔案保存
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目錄">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目錄
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        這份文件會幫你完成什麼
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平台如何完成連線與工作流設定保存
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="平台如何完成連線與工作流設定保存">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#playground-handoff" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Playground 導航與 handoff 對照
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#agent" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        登入驗證與 Agent 選擇
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工作流設定讀取與保存
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#runner-ai-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Runner 唯讀模式與 AI Hub 保存邊界
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ai-hub" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        AI Hub 與外部服務的責任邊界
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#api" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工作流設定 API 參考
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="工作流設定 API 參考">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v2 保存內容
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        查完這頁後應該留下什麼
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="_1">連線方式與責任邊界<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h1>
+<h2 id="_2">這份文件會幫你完成什麼<a class="headerlink" href="#_2" title="Permanent link">&para;</a></h2>
+<p>當你是平台維護者，正在確認外部自訂遊樂場登入失敗、使用者 Agent 清單缺漏、保存後工作區清單更新失敗，或訪客模式行為和登入模式混在一起時，就看這一頁。這一頁固定 AI Hub、外部自訂遊樂場服務、已登入使用者與訪客模式之間的請求順序，讓你知道每一段請求應該送到哪個系統，以及成功後要在哪裡看到結果。</p>
+<p>這一頁說明工作流設定的連線方式與責任邊界。v2 工作流設定以 <code>workflow_spec</code> 為主體，並帶有 <code>workflow_name</code> 與 <code>description</code>；<code>generated_source</code> 或相容輸入欄位 <code>python_source</code> 是由設定編譯或匯出的衍生內容。外部自訂遊樂場服務負責使用者在畫面中如何編輯工作流、如何聊天，以及如何操作互動介面。需要保存或讀回 <code>agentic_playground_bundle.zip</code> 時，接到 <a href="../workflow-save-load/">工作流保存與讀回</a>。</p>
+<h2 id="_3">平台如何完成連線與工作流設定保存<a class="headerlink" href="#_3" title="Permanent link">&para;</a></h2>
+<p>外部自訂遊樂場服務連到 AI Hub 時，平台維護者先把流程拆成登入驗證、Agent 選擇、工作流設定讀取、工作流設定保存、短效檔案連結簽發與工作區顯示幾個檢查點。這些檢查點共用同一個 <code>agent_id</code>，讓外部服務、AI 服務端點、SQL 資料庫與 AI Hub 工作區都能對回同一筆 Agent。</p>
+<h3 id="playground-handoff">Playground 導航與 handoff 對照<a class="headerlink" href="#playground-handoff" title="Permanent link">&para;</a></h3>
+<p>Agentic SDK 文件已定義 AI Hub 已登入使用者進 Playground 的正式 handoff API：建立新 workflow 走 <code>POST /playground/aihub/navigation/builder</code>，開啟既有 Agent 走 <code>POST /playground/aihub/navigation/runner</code>。這兩個 endpoint 由 Playground 建立 server-side session，成功後 redirect 到 <code>/playground/builder</code> 或 <code>/playground/run</code>。AI Hub handoff 表單帶入短效 token、AI Hub API base URL 與必要的 <code>agent_id</code>；AI Hub 不把使用者明文密碼交給瀏覽器 handoff。<code>owner</code> 與 <code>agentId</code> 在公開唯讀 Runner URL 中用來定位已公開的 Agent；登入後的 Builder/Runner 編輯入口則以 handoff token 作為正式導航憑證。</p>
+<table>
+<thead>
+<tr>
+<th>AI Hub 位置</th>
+<th>使用者意圖</th>
+<th>正式或預期入口</th>
+<th>AI Hub 狀態</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>產品導覽的自訂遊樂場</td>
+<td>使用者先進 Playground，自行決定下一步</td>
+<td><code>GET /playground</code></td>
+<td>不傳 token、不預設新建</td>
+</tr>
+<tr>
+<td>首頁的前往自訂遊樂場，未登入</td>
+<td>訪客先進 Playground</td>
+<td><code>GET /playground</code></td>
+<td>不傳 token、不預設新建</td>
+</tr>
+<tr>
+<td>首頁的前往自訂遊樂場，已登入</td>
+<td>建立新的 workflow</td>
+<td><code>POST /playground/aihub/navigation/builder</code>，成功後 <code>/playground/builder</code></td>
+<td>AI Hub 發短效 handoff token，由瀏覽器 top-level POST 到 Playground。</td>
+</tr>
+<tr>
+<td>我的遊樂場的建立新工作流程</td>
+<td>從 AI Hub 工作區建立新的 workflow</td>
+<td><code>POST /playground/aihub/navigation/builder</code>，成功後 <code>/playground/builder</code></td>
+<td>AI Hub 發短效 handoff token，由瀏覽器 top-level POST 到 Playground。</td>
+</tr>
+<tr>
+<td>我的遊樂場清單的檢視</td>
+<td>擁有者開啟自己的 workflow</td>
+<td><code>POST /playground/aihub/navigation/runner</code>，成功後 <code>/playground/run</code></td>
+<td>AI Hub 發短效 handoff token，並帶 <code>agent_id</code>。</td>
+</tr>
+<tr>
+<td>Gallery 卡片的進入遊樂場，擁有者或管理者</td>
+<td>可編輯者從公開展示區開啟 workflow</td>
+<td><code>POST /playground/aihub/navigation/runner</code>，成功後 <code>/playground/run</code></td>
+<td>AI Hub 發短效 handoff token，失敗時 fallback 到公開唯讀 Runner。</td>
+</tr>
+<tr>
+<td>Gallery 卡片的進入遊樂場，非擁有者或未登入</td>
+<td>使用者試用別人的 workflow</td>
+<td><code>GET /playground/run?owner=&lt;owner&gt;&amp;agentId=&lt;agent_id&gt;</code></td>
+<td>Playground 以公開載入 API 讀取 config，進入 <code>aihub_readonly</code>；不顯示擁有者限定操作。</td>
+</tr>
+</tbody>
+</table>
+<h3 id="agent">登入驗證與 Agent 選擇<a class="headerlink" href="#agent" title="Permanent link">&para;</a></h3>
+<p>外部自訂遊樂場服務的登入流程會先向 AI Hub 送出使用者帳號與密碼。AI Hub 回傳帳密驗證結果，外部服務再依結果顯示可操作的 Agent 清單。驗證成功後，外部服務向 AI Hub 取得該使用者擁有的 Agent，並在自訂遊樂場畫面中讓使用者選擇要操作哪一筆 Agent。</p>
+<p>平台維護者在這一段要留下三個證據：外部服務的來源網域是否被允許、帳密驗證 API 是否回傳有效結果，以及 Agent 清單中是否包含使用者要操作的同一個 <code>agent_id</code>。</p>
+<h3 id="_4">工作流設定讀取與保存<a class="headerlink" href="#_4" title="Permanent link">&para;</a></h3>
+<p>使用者選擇 Agent 後，外部自訂遊樂場服務用同一個 <code>agent_id</code> 讀取最近一次保存的 v2 contract、工作流名稱與摘要。使用者在自訂遊樂場中更新工作流後，外部服務把 <code>workflow_spec</code>、<code>workflow_name</code>、<code>description</code> 與既有 <code>agent_id</code> 保存回 AI Hub。<code>workflow_spec</code> 是重新編輯與還原流程的唯一主體；<code>generated_source</code> 或相容欄位 <code>python_source</code> 只能作為編譯後程式碼保存或匯出，不能取代設定本身。Runner 顯示資訊則由 <code>runner_presentation</code> 保存，不從 Python 文字推測。</p>
+<p>第一次保存新 Agent 時，外部服務省略 <code>agent_id</code>，AI Hub 建立新 Agent 並回傳 <code>201</code> 與新的 <code>agent_id</code>。後續保存同一筆 Agent 時，外部服務帶回 AI Hub 先前發出的 <code>agent_id</code>，AI Hub 更新同一筆 Agent 並回傳 <code>200</code>。</p>
+<p>工作流設定保存成功後，AI Hub 工作區中的 Agent 工作流程清單應能顯示外部服務傳入的工作流名稱與摘要，並讓使用者選擇 Gallery 類型。類型預設為無分類；只有選成智慧大健康或智慧工廠次系統的 Agent 才會出現在公開 Gallery。若工作區顯示未更新，維護者應帶著同一個 <code>agent_id</code> 回查 API 回應、SQL 欄位與工作區清單重新讀取結果。</p>
+<h3 id="runner-ai-hub">Runner 唯讀模式與 AI Hub 保存邊界<a class="headerlink" href="#runner-ai-hub" title="Permanent link">&para;</a></h3>
+<p>非擁有者或未登入使用者從 Gallery 進入工作流時，AI Hub 直接導向公開唯讀 Runner URL，並由 Playground 依 <code>owner</code> 與 <code>agentId</code> 載入公開 config。這條路徑不需要 AI Hub 登入，也不提供保存、重新載入為擁有者或其他擁有者限定操作。維護者看到唯讀聊天模式異常時，先確認 Agent 是否已保存 public config 且已在 AI Hub 工作區選擇 Gallery 類型；看到登入帳號、Agent 清單、工作流設定讀寫或短效檔案連結失敗時，再回到 AI Hub 端點與資料責任追查。</p>
+<h2 id="ai-hub">AI Hub 與外部服務的責任邊界<a class="headerlink" href="#ai-hub" title="Permanent link">&para;</a></h2>
+<p>AI Hub 與外部自訂遊樂場服務的責任分工如下。平台維護者排查時，先找問題停在哪個責任主體，再決定要查 API、資料庫、外部服務還是 Azure 儲存體。</p>
+<table>
+<thead>
+<tr>
+<th>主體</th>
+<th>維護責任</th>
+<th>可觀察證據</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AI Hub</td>
+<td>驗證帳密或 handoff token、檢查來源網域、產生與保存 <code>agent_id</code>、讀寫使用者自有 Agent 的工作流設定、保存 Gallery 類型、把導覽位置對應到 Agentic SDK handoff API、公開 <code>/playground</code> 或公開唯讀 Runner、更新工作區清單狀態。</td>
+<td>API 回應、SQL 中同一筆 Agent、工作區 Agent 清單、handoff endpoint 或公開入口路徑。</td>
+</tr>
+<tr>
+<td>外部自訂遊樂場服務</td>
+<td>顯示登入畫面、承接公開 <code>/playground</code>、<code>/playground/aihub/navigation/builder</code>、<code>/playground/aihub/navigation/runner</code>、控制工作流載入與聊天/編輯狀態、保存外部畫面狀態、讓使用者操作工作流，並把 Agentic SDK 的 stage event 顯示成 Runner 即時狀態。</td>
+<td>外部服務畫面、handoff request、工作流編輯狀態、Runner 模式、stage event 或由它轉成的 process event。</td>
+</tr>
+<tr>
+<td>Azure 儲存體</td>
+<td>保存同一個 <code>agent_id</code> 底下的固定工作流檔案包。</td>
+<td>上傳/下載回應、檔案儲存位置、短效連結到期時間。</td>
+</tr>
+</tbody>
+</table>
+<p><code>agent_id</code> 由 AI Hub 產生與發放。外部自訂遊樂場服務保存並帶回 <code>agent_id</code>，讓後續讀取、更新與檔案保存都對回同一筆 Agent。AI Hub 保存 v2 <code>workflow_spec</code>、Runner 顯示資料、衍生程式碼、端點綁定與語意檔案包參照；工作流內部節點語意、檔案包內容與檢索索引還原由外部服務、Agentic SDK 與 SemanticRetrieve 處理。</p>
+<h2 id="api">工作流設定 API 參考<a class="headerlink" href="#api" title="Permanent link">&para;</a></h2>
+<p>表 1 整理工作流設定使用的端點。維護者使用這張表時，先確認請求來源網域、使用者帳號、<code>agent_id</code> 與回應狀態，再把結果對回 SQL 與工作區畫面。</p>
+<table>
+<thead>
+<tr>
+<th>操作</th>
+<th>方法與端點</th>
+<th>送出的主要內容</th>
+<th>成功結果</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>驗證登入帳密</td>
+<td><code>POST /api/playground/auth/verify</code></td>
+<td><code>username</code>、<code>password</code></td>
+<td>回傳 <code>valid=true</code> 或 <code>valid=false</code>，成功時包含 <code>username</code> 與帳戶層級 <code>display_name</code>。</td>
+</tr>
+<tr>
+<td>驗證 handoff token</td>
+<td><code>POST /api/playground/handoff/verify</code></td>
+<td><code>token</code></td>
+<td>回傳 token 對應的 <code>username</code>、<code>agent_id</code> 與帳戶層級 <code>display_name</code>。</td>
+</tr>
+<tr>
+<td>交換 handoff 工作階段</td>
+<td><code>POST /api/playground/handoff/exchange</code></td>
+<td><code>token</code></td>
+<td>驗證 handoff token 後回傳可供 Playground 使用的短效工作階段與 intent。</td>
+</tr>
+<tr>
+<td>刷新 Playground 工作階段</td>
+<td><code>POST /api/playground/session/refresh</code></td>
+<td>已驗證的 Playground session</td>
+<td>回傳新的短效 Playground 工作階段。</td>
+</tr>
+<tr>
+<td>列出使用者的所有 Agent</td>
+<td><code>POST /api/playground/agents</code></td>
+<td><code>username</code>、<code>password</code>；或 handoff token 對應的同一帳號</td>
+<td>回傳 <code>items</code> 陣列，每個 Agent 包含 <code>agent_id</code>、<code>workflow_name</code>、<code>description</code>、<code>has_playground_config</code>、<code>playground_exported_at</code>、<code>created_at</code>、<code>updated_at</code>。</td>
+</tr>
+<tr>
+<td>讀取 Agent 最近設定</td>
+<td><code>POST /api/playground/agents/&lt;agent_id&gt;/config/load</code></td>
+<td><code>username</code>、<code>password</code>；或 handoff token 對應的同一帳號與 <code>agent_id</code></td>
+<td>回傳 v2 <code>workflow_spec</code>、<code>runner_presentation</code>、<code>generated_source</code>、端點綁定、<code>workflow_name</code>、<code>description</code> 與保存時間。</td>
+</tr>
+<tr>
+<td>讀取公開 Agent 設定</td>
+<td><code>POST /api/playground/agents/&lt;agent_id&gt;/config/public/load</code></td>
+<td>空 JSON body；不需要登入帳密</td>
+<td>回傳已公開 Agent 的 v2 contract 與 metadata，供公開唯讀 Runner 使用。</td>
+</tr>
+<tr>
+<td>保存或新建 Agent contract</td>
+<td><code>POST /api/playground/contract/save</code></td>
+<td>認證資料、必填 <code>workflow_spec</code>，以及 <code>workflow_name</code>；更新時提供 <code>agent_id</code></td>
+<td>更新既有 Agent 時回傳 <code>200</code>；第一次建立新 Agent 時回傳 <code>201</code> 與新 <code>agent_id</code>。</td>
+</tr>
+</tbody>
+</table>
+<p>外部自訂遊樂場服務呼叫這些 API 時，帶入合法的來源網域。<code>display_name</code> 是帳戶層級顯示名稱，會用於 Playground 問候與身份顯示；<code>workflow_name</code> 與 <code>description</code> 是 Agent 層級 metadata，會同步到 AI Hub 工作區清單，讓維護者與使用者能辨識每一筆 Agent 的目前狀態。Agent 是否出現在 Gallery 由工作區清單中的 Gallery 類型決定，無分類不會出現在公開 Gallery。</p>
+<h3 id="v2">v2 保存內容<a class="headerlink" href="#v2" title="Permanent link">&para;</a></h3>
+<p><code>workflow_spec</code> 是必填 JSON 物件，也是 v2 contract 的主體。保存時可省略頂層 <code>workflow_name</code> 或 <code>description</code>，只要 spec 中可取得相同 metadata；但 workflow 名稱最終不得為空。<code>generated_source</code> 與 <code>python_source</code> 都可作為衍生程式碼輸入，服務端將它保存為 generated source，不能用它重建缺少的 <code>workflow_spec</code>。</p>
+<table>
+<thead>
+<tr>
+<th>欄位</th>
+<th>必填</th>
+<th>用途</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>workflow_spec</code></td>
+<td>是</td>
+<td>v2 workflow 的可重新編輯設定主體。</td>
+</tr>
+<tr>
+<td><code>workflow_name</code>、<code>description</code></td>
+<td>名稱必須可取得</td>
+<td>Agent 工作區顯示 metadata；可由 spec 補足。</td>
+</tr>
+<tr>
+<td><code>agent_id</code></td>
+<td>更新時</td>
+<td>省略時建立 Agent；帶入時需屬於目前使用者。</td>
+</tr>
+<tr>
+<td><code>runner_presentation</code></td>
+<td>否</td>
+<td>Runner 歡迎訊息、預設問題等顯示設定。</td>
+</tr>
+<tr>
+<td><code>generated_source</code> 或 <code>python_source</code></td>
+<td>否</td>
+<td>由 spec 編譯或匯出的 Python 程式碼。</td>
+</tr>
+<tr>
+<td><code>contract_hash</code></td>
+<td>否</td>
+<td>contract 指紋，供變更追查。</td>
+</tr>
+<tr>
+<td><code>semantic_bundle_ref</code></td>
+<td>否</td>
+<td>對應語意檢索檔案包的參照。</td>
+</tr>
+<tr>
+<td><code>endpoint_bindings</code></td>
+<td>否</td>
+<td>Perceive、Retrieve、Action、Reflect 的非機密端點 ID 綁定。</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_5">查完這頁後應該留下什麼<a class="headerlink" href="#_5" title="Permanent link">&para;</a></h2>
+<p>查完這一頁後，平台維護者應該能留下同一筆連線問題的證據包：使用者進入的是公開 <code>/playground</code>、Builder handoff、Runner handoff，還是公開唯讀 Runner；外部服務來源網域、使用者帳號、<code>agent_id</code>、呼叫過的工作流設定 API、回應狀態、SQL 中同一筆 Agent 的工作流名稱、摘要與 Gallery 類型，以及 AI Hub 工作區清單顯示結果。</p>
+<ol>
+<li>登入驗證問題：留下來源網域、帳密驗證回應與錯誤格式。</li>
+<li>Agent 清單問題：留下使用者帳號、Agent 清單回應與缺漏的 <code>agent_id</code>。</li>
+<li>工作流設定保存問題：留下請求中的 <code>workflow_spec</code>、<code>workflow_name</code>、<code>description</code>、<code>agent_id</code>、端點綁定與回應狀態；衍生程式碼只作為輔助證據。</li>
+<li>工作區顯示問題：留下 AI Hub 工作區清單畫面、同一筆 Agent 的資料庫欄位與最近匯出時間。</li>
+<li>Runner 階段狀態問題：留下 Runner 模式、<code>runner_presentation</code>、外部服務收到的 stage event 或 process event，以及最終回覆是否已開始輸出。</li>
+</ol>
+<p>若問題已確認停在 Runner 執行期間的階段顯示，下一步接到 <a href="../runner-stage-status/">Runner 階段狀態</a>。若問題已確認停在工作流檔案包的保存或讀回，下一步接到 <a href="../workflow-save-load/">工作流保存與讀回</a>。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到頂端
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="頁腳" >
+        
+          
+          <a href="../" class="md-footer__link md-footer__link--prev" aria-label="上一頁: 整合自訂遊樂場">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一頁
+              </span>
+              <div class="md-ellipsis">
+                整合自訂遊樂場
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../runner-stage-status/" class="md-footer__link md-footer__link--next" aria-label="下一頁: Runner 階段狀態">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一頁
+              </span>
+              <div class="md-ellipsis">
+                Runner 階段狀態
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; EOSL AI Hub maintainers
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/R300-AI/eosl-aihub-pages" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.tabs", "navigation.sections", "navigation.indexes", "navigation.top", "navigation.footer", "toc.follow", "search.suggest", "search.highlight", "content.code.copy"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u8907\u88fd", "clipboard.copy": "\u8907\u88fd", "search.result.more.one": "\u6b64\u9801\u5c1a\u6709 1 \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.more.other": "\u6b64\u9801\u5c1a\u6709 # \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.none": "\u6c92\u6709\u7b26\u5408\u7684\u9805\u76ee", "search.result.one": "\u627e\u5230 1 \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.other": "\u627e\u5230 # \u500b\u7b26\u5408\u7684\u9805\u76ee", "search.result.placeholder": "\u6253\u5b57\u9032\u884c\u641c\u5c0b", "search.result.term.missing": "\u7f3a\u5c11\u5b57\u8a5e", "select.version": "\u9078\u64c7\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
