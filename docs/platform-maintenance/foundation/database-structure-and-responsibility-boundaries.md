@@ -223,6 +223,15 @@ erDiagram
         string workflow_yaml
         string entry_node
         string execution_backend
+        string playground_contract_version
+        json playground_workflow_spec
+        json playground_runner_presentation
+        string playground_contract_hash
+        string playground_semantic_bundle_ref
+        text playground_generated_source
+        json playground_endpoint_bindings
+        datetime playground_contract_saved_at
+        datetime playground_exported_at
         datetime last_run_at
         datetime updated_at
     }
@@ -230,7 +239,9 @@ erDiagram
 
 圖 4、Agent 定義與執行入口 ER 子圖。
 
-圖後判讀時，`agent_id` 固定單一 Agent 定義，`owner_username` 讓它回到擁有者帳號，`workflow_yaml`、`entry_node` 與 `execution_backend` 說明執行入口如何被保存。`last_run_at` 和 `updated_at` 可用來判斷定義是否曾被更新或被執行過。
+圖後判讀時，`agent_id` 固定單一 Agent 定義，`owner_username` 讓它回到擁有者帳號，`workflow_yaml`、`entry_node` 與 `execution_backend` 說明工作區定義與執行入口如何被保存。
+
+外部 Playground 的 v2 保存以 `playground_contract_version` 與 `playground_workflow_spec` 為主體，`playground_contract_hash` 供維護者比對保存版本；這三者用於判斷可否重新編輯同一個 workflow。`playground_runner_presentation`、`playground_generated_source`、`playground_endpoint_bindings` 與兩個保存時間則支援 Runner 顯示、程式碼匯出、模型端點追查與保存時序。`playground_semantic_bundle_ref` 只保存檔案包參照，實際 bundle 仍由外部服務透過短效連結管理。維護者先以 `agent_id` 與 `owner_username` 確認權限，再把這些欄位對照 `POST /api/playground/contract/save`、config load 與 bundle save/load 的回應；`last_run_at` 和 `updated_at` 則用來判斷定義是否曾被執行或更新。
 
 ### 產品與硬體規格
 

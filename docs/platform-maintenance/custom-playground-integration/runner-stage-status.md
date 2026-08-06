@@ -4,7 +4,7 @@
 
 當你是平台維護者，正在確認外部自訂遊樂場 Runner 已成功開啟，但畫面在最終回覆前沒有顯示目前 workflow 階段、顯示舊的階段文字、可編輯 Runner 與公開唯讀 Runner 顯示不一致，或使用者把階段顯示問題誤判成 AI Hub handoff 失敗時，就看這一頁。
 
-這一頁接續 [連線方式與責任邊界](connection-and-responsibility.md)。AI Hub 負責保存與讀回同一筆 Agent 的 `python_source`、`workflow_name` 與 `description`；外部自訂遊樂場服務負責用這份設定建立 Runner、執行 Agentic SDK workflow，並把 SDK 送出的 stage event 顯示成畫面狀態。AI Hub 不解析 workflow 執行期間的 stage event，也不自行決定每個模組要顯示什麼文字。
+這一頁接續 [連線方式與責任邊界](connection-and-responsibility.md)。AI Hub 負責保存與讀回同一筆 Agent 的 v2 `workflow_spec`、`workflow_name`、`description` 與 `runner_presentation`；外部自訂遊樂場服務用這份 contract 建立 Runner、執行 Agentic SDK workflow，並把 SDK 送出的 stage event 顯示成畫面狀態。AI Hub 不解析 workflow 執行期間的 stage event，也不自行決定每個模組要顯示什麼文字。
 
 ## Runner 如何顯示 workflow 階段
 
@@ -32,7 +32,7 @@ Runner 階段狀態的責任分工如下。平台維護者排查時，先確認�
 
 | 主體 | 維護責任 | 可觀察證據 |
 | --- | --- | --- |
-| AI Hub | 保存與讀回 `python_source`、`workflow_name`、`description`，並依入口情境提供 handoff 或公開 config load。 | config save/load API 回應、SQL 中同一筆 Agent、工作區清單最近更新時間、公開 config load 回應。 |
+| AI Hub | 保存與讀回 `workflow_spec`、`workflow_name`、`description`、`runner_presentation` 與衍生程式碼，並依入口情境提供 handoff 或公開 config load。 | contract save/load API 回應、SQL 中同一筆 Agent、工作區清單最近更新時間、公開 config load 回應。 |
 | Agentic SDK | 依 `Workflow(stage_labels=...)` 與預設階段文字產生 stage event，並在 workflow 執行時交給 `event_callback`。 | SDK event、`stage`、`label`、`module_class`、`workflow_id`、`session_id`。 |
 | 外部自訂遊樂場服務 | 用讀回的 `python_source` 建立 workflow，接收 SDK stage event，將 `type == "stage"` 且 `status == "running"` 的 `label` 顯示成 Runner 狀態。 | Runner 畫面狀態列、stream process event、Runner 模式、最後回覆輸出狀態。 |
 

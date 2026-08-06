@@ -23,7 +23,7 @@ Agentic SDK 的五大模組是 `perceive`、`plan`、`retrieve`、`action`、`re
 
 ## AI Hub 與外部服務的責任邊界
 
-AI Hub 保存的是同一筆 Agent 的 `python_source`、`workflow_name`、`description` 與檔案包狀態。外部自訂遊樂場服務把 source 交給 Agentic SDK 執行，並把 stage event 顯示給使用者。模組是否符合共同規範，由外部服務與 SDK 執行結果驗證；AI Hub 的維護證據集中在 source 是否保存、讀回與對回同一筆 `agent_id`。
+AI Hub 保存的是同一筆 Agent 的 v2 `workflow_spec`、`workflow_name`、`description`、`runner_presentation`、衍生 `generated_source` 與檔案包狀態。外部自訂遊樂場服務以 contract 建立 Agentic SDK workflow，並把 stage event 顯示給使用者。模組是否符合共同規範，由外部服務與 SDK 執行結果驗證；AI Hub 的維護證據集中在 contract 是否保存、讀回與對回同一筆 `agent_id`。
 
 | 主體 | 維護責任 | 可觀察證據 |
 | --- | --- | --- |

@@ -4,7 +4,7 @@
 
 當你是平台維護者，正在確認外部自訂遊樂場登入失敗、使用者 Agent 清單缺漏、保存後工作區清單更新失敗，或訪客模式行為和登入模式混在一起時，就看這一頁。這一頁固定 AI Hub、外部自訂遊樂場服務、已登入使用者與訪客模式之間的請求順序，讓你知道每一段請求應該送到哪個系統，以及成功後要在哪裡看到結果。
 
-這一頁說明工作流設定的連線方式與責任邊界。工作流設定包含 `python_source`、`workflow_name` 與 `description`；外部自訂遊樂場服務負責使用者在畫面中如何編輯工作流、如何聊天，以及如何操作互動介面。需要保存或讀回 `agentic_playground_bundle.zip` 時，接到 [工作流保存與讀回](workflow-save-load.md)。
+這一頁說明工作流設定的連線方式與責任邊界。v2 工作流設定以 `workflow_spec` 為主體，並帶有 `workflow_name` 與 `description`；`generated_source` 或相容輸入欄位 `python_source` 是由設定編譯或匯出的衍生內容。外部自訂遊樂場服務負責使用者在畫面中如何編輯工作流、如何聊天，以及如何操作互動介面。需要保存或讀回 `agentic_playground_bundle.zip` 時，接到 [工作流保存與讀回](workflow-save-load.md)。
 
 ## 平台如何完成連線與工作流設定保存
 
@@ -32,7 +32,7 @@ Agentic SDK 文件已定義 AI Hub 已登入使用者進 Playground 的正式 ha
 
 ### 工作流設定讀取與保存
 
-使用者選擇 Agent 後，外部自訂遊樂場服務用同一個 `agent_id` 讀取最近一次匯出的 Python 設定內容、工作流名稱與摘要。使用者在自訂遊樂場中更新工作流後，外部服務再把 `python_source`、`workflow_name`、`description` 與既有 `agent_id` 保存回 AI Hub。若 `python_source` 中包含 `Workflow(stage_labels=...)`，這些 Runner 階段提示文字也屬於同一份工作流設定內容，會隨 `python_source` 一起保存與讀回。
+使用者選擇 Agent 後，外部自訂遊樂場服務用同一個 `agent_id` 讀取最近一次保存的 v2 contract、工作流名稱與摘要。使用者在自訂遊樂場中更新工作流後，外部服務把 `workflow_spec`、`workflow_name`、`description` 與既有 `agent_id` 保存回 AI Hub。`workflow_spec` 是重新編輯與還原流程的唯一主體；`generated_source` 或相容欄位 `python_source` 只能作為編譯後程式碼保存或匯出，不能取代設定本身。Runner 顯示資訊則由 `runner_presentation` 保存，不從 Python 文字推測。
 
 第一次保存新 Agent 時，外部服務省略 `agent_id`，AI Hub 建立新 Agent 並回傳 `201` 與新的 `agent_id`。後續保存同一筆 Agent 時，外部服務帶回 AI Hub 先前發出的 `agent_id`，AI Hub 更新同一筆 Agent 並回傳 `200`。
 
@@ -52,7 +52,7 @@ AI Hub 與外部自訂遊樂場服務的責任分工如下。平台維護者排�
 | 外部自訂遊樂場服務 | 顯示登入畫面、承接公開 `/playground`、`/playground/aihub/navigation/builder`、`/playground/aihub/navigation/runner`、控制工作流載入與聊天/編輯狀態、保存外部畫面狀態、讓使用者操作工作流，並把 Agentic SDK 的 stage event 顯示成 Runner 即時狀態。 | 外部服務畫面、handoff request、工作流編輯狀態、Runner 模式、stage event 或由它轉成的 process event。 |
 | Azure 儲存體 | 保存同一個 `agent_id` 底下的固定工作流檔案包。 | 上傳/下載回應、檔案儲存位置、短效連結到期時間。 |
 
-`agent_id` 由 AI Hub 產生與發放。外部自訂遊樂場服務保存並帶回 `agent_id`，讓後續讀取、更新與檔案保存都對回同一筆 Agent。AI Hub 把工作流設定保存成 Python 設定內容與顯示資料；工作流內部節點語意、檔案包內容與檢索索引還原由外部服務、Agentic SDK 與 SemanticRetriever 處理。
+`agent_id` 由 AI Hub 產生與發放。外部自訂遊樂場服務保存並帶回 `agent_id`，讓後續讀取、更新與檔案保存都對回同一筆 Agent。AI Hub 保存 v2 `workflow_spec`、Runner 顯示資料、衍生程式碼、端點綁定與語意檔案包參照；工作流內部節點語意、檔案包內容與檢索索引還原由外部服務、Agentic SDK 與 SemanticRetrieve 處理。
 
 ## 工作流設定 API 參考
 
@@ -62,12 +62,29 @@ AI Hub 與外部自訂遊樂場服務的責任分工如下。平台維護者排�
 | --- | --- | --- | --- |
 | 驗證登入帳密 | `POST /api/playground/auth/verify` | `username`、`password` | 回傳 `valid=true` 或 `valid=false`，成功時包含 `username` 與帳戶層級 `display_name`。 |
 | 驗證 handoff token | `POST /api/playground/handoff/verify` | `token` | 回傳 token 對應的 `username`、`agent_id` 與帳戶層級 `display_name`。 |
+| 交換 handoff 工作階段 | `POST /api/playground/handoff/exchange` | `token` | 驗證 handoff token 後回傳可供 Playground 使用的短效工作階段與 intent。 |
+| 刷新 Playground 工作階段 | `POST /api/playground/session/refresh` | 已驗證的 Playground session | 回傳新的短效 Playground 工作階段。 |
 | 列出使用者的所有 Agent | `POST /api/playground/agents` | `username`、`password`；或 handoff token 對應的同一帳號 | 回傳 `items` 陣列，每個 Agent 包含 `agent_id`、`workflow_name`、`description`、`has_playground_config`、`playground_exported_at`、`created_at`、`updated_at`。 |
-| 讀取 Agent 最近設定 | `POST /api/playground/agents/<agent_id>/config/load` | `username`、`password`；或 handoff token 對應的同一帳號與 `agent_id` | 回傳該 Agent 最近一次匯出的 Python 設定內容、`workflow_name`、`description` 與匯出時間。 |
-| 讀取公開 Agent 設定 | `POST /api/playground/agents/<agent_id>/config/public/load` | 空 JSON body；不需要登入帳密 | 回傳已公開 Agent 的 Python 設定內容、`workflow_name`、`description` 與匯出時間，供公開唯讀 Runner 使用。 |
-| 保存或新建 Agent 設定 | `POST /api/playground/config/save` | `username`、`password`；或 handoff token；另帶 `python_source`、`workflow_name`、`description`，更新時提供 `agent_id` | 更新既有 Agent 時回傳 `200`；第一次建立新 Agent 時回傳 `201` 與新 `agent_id`。 |
+| 讀取 Agent 最近設定 | `POST /api/playground/agents/<agent_id>/config/load` | `username`、`password`；或 handoff token 對應的同一帳號與 `agent_id` | 回傳 v2 `workflow_spec`、`runner_presentation`、`generated_source`、端點綁定、`workflow_name`、`description` 與保存時間。 |
+| 讀取公開 Agent 設定 | `POST /api/playground/agents/<agent_id>/config/public/load` | 空 JSON body；不需要登入帳密 | 回傳已公開 Agent 的 v2 contract 與 metadata，供公開唯讀 Runner 使用。 |
+| 保存或新建 Agent contract | `POST /api/playground/contract/save` | 認證資料、必填 `workflow_spec`，以及 `workflow_name`；更新時提供 `agent_id` | 更新既有 Agent 時回傳 `200`；第一次建立新 Agent 時回傳 `201` 與新 `agent_id`。 |
 
 外部自訂遊樂場服務呼叫這些 API 時，帶入合法的來源網域。`display_name` 是帳戶層級顯示名稱，會用於 Playground 問候與身份顯示；`workflow_name` 與 `description` 是 Agent 層級 metadata，會同步到 AI Hub 工作區清單，讓維護者與使用者能辨識每一筆 Agent 的目前狀態。Agent 是否出現在 Gallery 由工作區清單中的 Gallery 類型決定，無分類不會出現在公開 Gallery。
+
+### v2 保存內容
+
+`workflow_spec` 是必填 JSON 物件，也是 v2 contract 的主體。保存時可省略頂層 `workflow_name` 或 `description`，只要 spec 中可取得相同 metadata；但 workflow 名稱最終不得為空。`generated_source` 與 `python_source` 都可作為衍生程式碼輸入，服務端將它保存為 generated source，不能用它重建缺少的 `workflow_spec`。
+
+| 欄位 | 必填 | 用途 |
+| --- | --- | --- |
+| `workflow_spec` | 是 | v2 workflow 的可重新編輯設定主體。 |
+| `workflow_name`、`description` | 名稱必須可取得 | Agent 工作區顯示 metadata；可由 spec 補足。 |
+| `agent_id` | 更新時 | 省略時建立 Agent；帶入時需屬於目前使用者。 |
+| `runner_presentation` | 否 | Runner 歡迎訊息、預設問題等顯示設定。 |
+| `generated_source` 或 `python_source` | 否 | 由 spec 編譯或匯出的 Python 程式碼。 |
+| `contract_hash` | 否 | contract 指紋，供變更追查。 |
+| `semantic_bundle_ref` | 否 | 對應語意檢索檔案包的參照。 |
+| `endpoint_bindings` | 否 | Perceive、Retrieve、Action、Reflect 的非機密端點 ID 綁定。 |
 
 ## 查完這頁後應該留下什麼
 
@@ -75,8 +92,8 @@ AI Hub 與外部自訂遊樂場服務的責任分工如下。平台維護者排�
 
 1. 登入驗證問題：留下來源網域、帳密驗證回應與錯誤格式。
 2. Agent 清單問題：留下使用者帳號、Agent 清單回應與缺漏的 `agent_id`。
-3. 工作流設定保存問題：留下 請求中的 `workflow_name`、`description`、`python_source`、`agent_id` 與回應狀態。
+3. 工作流設定保存問題：留下請求中的 `workflow_spec`、`workflow_name`、`description`、`agent_id`、端點綁定與回應狀態；衍生程式碼只作為輔助證據。
 4. 工作區顯示問題：留下 AI Hub 工作區清單畫面、同一筆 Agent 的資料庫欄位與最近匯出時間。
-5. Runner 階段狀態問題：留下 Runner 模式、`python_source` 中的 `stage_labels`、外部服務收到的 stage event 或 process event，以及最終回覆是否已開始輸出。
+5. Runner 階段狀態問題：留下 Runner 模式、`runner_presentation`、外部服務收到的 stage event 或 process event，以及最終回覆是否已開始輸出。
 
 若問題已確認停在 Runner 執行期間的階段顯示，下一步接到 [Runner 階段狀態](runner-stage-status.md)。若問題已確認停在工作流檔案包的保存或讀回，下一步接到 [工作流保存與讀回](workflow-save-load.md)。
